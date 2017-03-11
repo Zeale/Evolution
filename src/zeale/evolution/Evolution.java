@@ -3,6 +3,7 @@ package zeale.evolution;
 import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
 import java.util.Collections;
+import java.util.ConcurrentModificationException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -72,7 +73,7 @@ public final class Evolution {
 	 * Go figure...
 	 */
 	private void loop() {
-		long delta = System.nanoTime(), past = 1000000000 / 60;
+		long delta = System.nanoTime(), past = delta - 1000000000 / 60;
 		while (true) {
 			delta = System.nanoTime();
 			if (delta - past < 1000000000 / 60)
@@ -83,9 +84,21 @@ public final class Evolution {
 				for (final Structure s : structures)
 					if (s.isAlive())
 						s.work(delta - past);
+				if (!modificationStructsList.isEmpty())// Prevents
+														// ConcurrentModificationExceptions
+				{
+					structures.addAll(modificationStructsList);
+					modificationStructsList.clear();
+				}
 				for (final Bot b : bots)
 					if (b.isAlive())
 						b.work(delta - past);
+				if (!modificationBotsList.isEmpty())// Prevents
+													// ConcurrentModificationExceptions
+				{
+					bots.addAll(modificationBotsList);
+					modificationBotsList.clear();
+				}
 
 			}
 			past = delta;
@@ -115,11 +128,39 @@ public final class Evolution {
 	 * Adds a {@link Bot} to the game.
 	 *
 	 * @param bot
-	 * @return
+	 *            The {@link Bot} that will be added to the game.
+	 * @return As specified in {@link LinkedList#add(Object)}.
 	 */
 	public boolean addBot(final Bot bot) {
-		return bots.add(bot);
+		return modificationBotsList.add(bot);
 	}
+
+	/**
+	 * Adds a {@link Structure} to the game.
+	 *
+	 * @param struct
+	 *            The {@link Structure} that will be added to the game.
+	 * @return As specified in {@link LinkedList#add(Object)}.
+	 */
+	public boolean addStruct(final Structure struct) {
+		return modificationStructsList.add(struct);
+	}
+
+	/**
+	 * This List is used to prevent {@link ConcurrentModificationException}s
+	 * from occurring. While iterating over {@link #structures},
+	 * {@link #addStruct(Structure)} adds its objects here to prevent
+	 * {@link ConcurrentModificationException}s caused by {@link #structures}.
+	 */
+	private LinkedList<Structure> modificationStructsList = new LinkedList<>();
+
+	/**
+	 * This List is used to prevent {@link ConcurrentModificationException}s
+	 * from occurring. While iterating over {@link #bots}, {@link #addBot(Bot)}
+	 * adds its objects here to prevent {@link ConcurrentModificationException}s
+	 * caused by {@link #bots}.
+	 */
+	private LinkedList<Bot> modificationBotsList = new LinkedList<>();
 
 	/**
 	 * <p>

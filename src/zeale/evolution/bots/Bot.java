@@ -23,6 +23,52 @@ import zeale.evolution.structures.resourcespawners.ResourceSpawner;
 public class Bot extends Object {
 
 	/**
+	 * The life that this {@link Bot} has remaining before it dies (in seconds).
+	 */
+	private double life = 100.0;
+
+	/**
+	 * Adds life to this {@link Bot}. See {@link #life} for more details.
+	 *
+	 * @param life
+	 *            The amount of life to add to this {@link Bot}.
+	 * @return The total amount of life that this {@link Bot} has left.
+	 */
+	public double addLife(double life) {
+		return this.life += life;
+	}
+
+	/**
+	 * A getter for {@link Bot#life}.
+	 *
+	 * @return The life remaining for this {@link Bot}.
+	 */
+	public double getLife() {
+		return life;
+	}
+
+	/**
+	 * Sets the amount of life that this {@link Bot} has left.
+	 *
+	 * @param life
+	 *            The amount of life that will be set to this {@link Bot}.
+	 */
+	public void setLife(double life) {
+		this.life = life;
+	}
+
+	/**
+	 * Decrements the life of this {@link Bot} by the specified amount.
+	 *
+	 * @param life
+	 *            The amount of life to take from this {@link Bot}.
+	 * @return The amount of life that this {@link Bot} has left over.
+	 */
+	public double decrementLife(double life) {
+		return this.life -= life;
+	}
+
+	/**
 	 * The maximum amount of {@link Resource}s that this {@link Bot} can carry.
 	 * (AKA its inventory size.)
 	 */
@@ -186,6 +232,15 @@ public class Bot extends Object {
 	@Override
 	public void work(final long delta) {
 		// Handle wait time...
+
+		if (life > 0) {
+			life -= Evolution.nanosecToSec(delta);
+			if (life <= 0) {
+				life = 0;
+				kill();
+			}
+		}
+
 		if (waitTime > 0) {
 			waitTime -= delta / 1000000;
 			if (waitTime < 0)
@@ -204,7 +259,10 @@ public class Bot extends Object {
 
 		// This happens if there are no Resource Spawners left.
 		if (target == null)
-			return;
+			if (resources.size() > 0)
+				target = Evolution.<Spawnpoint>getClosestStructure(this, Spawnpoint.class);
+			else
+				return;
 
 		// This is the distance between this bot and its target.
 		final double distance = Evolution.getDistance(this, target);

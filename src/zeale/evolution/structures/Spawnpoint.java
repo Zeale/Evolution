@@ -3,12 +3,21 @@ package zeale.evolution.structures;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
+import zeale.evolution.Evolution;
 import zeale.evolution.Object;
 import zeale.evolution.bots.Bot;
 import zeale.evolution.resources.Resource;
+import zeale.evolution.structures.resourcespawners.ResourceSpawner;
 
 public final class Spawnpoint extends Structure {
+
+	/**
+	 * A private static random for wherever/whenever it's needed in this class.
+	 */
+	private static Random rand = new Random();
 
 	/**
 	 * A {@link LinkedList} of the {@link Resource}s that this
@@ -35,7 +44,20 @@ public final class Spawnpoint extends Structure {
 
 	@Override
 	public void activate(final Bot bot) {
-		resources.addAll(bot.takeResources());
+		List<Resource> list = bot.takeResources();
+		for (Resource r : list)
+			bot.addLife(r.getValue() * 6);
+		resources.addAll(list);
+	}
+
+	public LinkedList<Resource> removeResources(int count) {
+		LinkedList<Resource> list = new LinkedList<>();
+		for (int i = 0; i < count; i++)
+			if (!resources.isEmpty())
+				list.add(resources.removeFirst());
+			else
+				return list;
+		return list;
 	}
 
 	@Override
@@ -53,6 +75,19 @@ public final class Spawnpoint extends Structure {
 
 	@Override
 	public void work(final long delta) {
+		if (resources.size() >= 15)
+			if (rand.nextInt(20) == 0) {
+				if (rand.nextBoolean())
+					Evolution.getCurrentInstance()
+							.addStruct(new ResourceSpawner(rand.nextDouble() * Evolution.calculateSize(1920, true),
+									rand.nextDouble() * Evolution.calculateSize(1080, false), (short) 50));
+				else
+					Evolution.getCurrentInstance()
+							.addBot(new Bot(rand.nextDouble() * Evolution.calculateSize(1920, true),
+									rand.nextDouble() * Evolution.calculateSize(1080, false), (short) 2));
+				removeResources(15);
+
+			}
 
 	}
 
