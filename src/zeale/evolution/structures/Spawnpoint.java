@@ -15,11 +15,6 @@ import zeale.evolution.structures.resourcespawners.ResourceSpawner;
 public final class Spawnpoint extends Structure {
 
 	/**
-	 * A private static random for wherever/whenever it's needed in this class.
-	 */
-	private static Random rand = new Random();
-
-	/**
 	 * A {@link LinkedList} of the {@link Resource}s that this
 	 * {@link Spawnpoint} currently holds.
 	 */
@@ -29,6 +24,11 @@ public final class Spawnpoint extends Structure {
 	 * The size value of this {@link Spawnpoint}. Defaults to 36.
 	 */
 	private final int width = 36, height = 36;
+
+	/**
+	 * A private static random for wherever/whenever it's needed in this class.
+	 */
+	private static Random rand = new Random();
 
 	/**
 	 * Constructs a new {@link Spawnpoint} using an x and y position.
@@ -50,6 +50,11 @@ public final class Spawnpoint extends Structure {
 		resources.addAll(list);
 	}
 
+	@Override
+	public void activate(final Object activatingObj) {
+
+	}
+
 	public LinkedList<Resource> removeResources(int count) {
 		LinkedList<Resource> list = new LinkedList<>();
 		for (int i = 0; i < count; i++)
@@ -58,11 +63,6 @@ public final class Spawnpoint extends Structure {
 			else
 				return list;
 		return list;
-	}
-
-	@Override
-	public void activate(final Object activatingObj) {
-
 	}
 
 	@Override

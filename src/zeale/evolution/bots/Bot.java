@@ -26,53 +26,12 @@ public class Bot extends Object {
 	 * The life that this {@link Bot} has remaining before it dies (in seconds).
 	 */
 	private double life = 100.0;
-
-	/**
-	 * Adds life to this {@link Bot}. See {@link #life} for more details.
-	 *
-	 * @param life
-	 *            The amount of life to add to this {@link Bot}.
-	 * @return The total amount of life that this {@link Bot} has left.
-	 */
-	public double addLife(double life) {
-		return this.life += life;
-	}
-
-	/**
-	 * A getter for {@link Bot#life}.
-	 *
-	 * @return The life remaining for this {@link Bot}.
-	 */
-	public double getLife() {
-		return life;
-	}
-
-	/**
-	 * Sets the amount of life that this {@link Bot} has left.
-	 *
-	 * @param life
-	 *            The amount of life that will be set to this {@link Bot}.
-	 */
-	public void setLife(double life) {
-		this.life = life;
-	}
-
-	/**
-	 * Decrements the life of this {@link Bot} by the specified amount.
-	 *
-	 * @param life
-	 *            The amount of life to take from this {@link Bot}.
-	 * @return The amount of life that this {@link Bot} has left over.
-	 */
-	public double decrementLife(double life) {
-		return this.life -= life;
-	}
-
 	/**
 	 * The maximum amount of {@link Resource}s that this {@link Bot} can carry.
 	 * (AKA its inventory size.)
 	 */
 	private short maxResources = 5;
+
 	/**
 	 * The {@link LinkedList} of {@link Resource}s that this {@link Bot}
 	 * carries. This is sometimes referred to as its <i>inventory</i> in
@@ -89,7 +48,7 @@ public class Bot extends Object {
 	/**
 	 * The {@link Object} that this {@link Bot} is attempting to head towards.
 	 */
-	private Object target;
+	private transient Object target;
 
 	/**
 	 * The current amount of wait time that this {@link Bot} has. See
@@ -101,11 +60,15 @@ public class Bot extends Object {
 	 * The {@link Color} of this {@link Bot}. Defaults to {@link Color#PINK}.
 	 */
 	protected Color botColor = Color.PINK;
-
 	/**
 	 * The size of this {@link Bot}. Defaulted to 25.
 	 */
 	protected int width = 25, height = 25;
+
+	/**
+	 * Serial Version UID
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Makes a new {@link Bot} with the specified attributes and position.
@@ -176,6 +139,17 @@ public class Bot extends Object {
 	}
 
 	/**
+	 * Adds life to this {@link Bot}. See {@link #life} for more details.
+	 *
+	 * @param life
+	 *            The amount of life to add to this {@link Bot}.
+	 * @return The total amount of life that this {@link Bot} has left.
+	 */
+	public double addLife(double life) {
+		return this.life += life;
+	}
+
+	/**
 	 * Adds time to this {@link Bot} where it will sit and do nothing. If this
 	 * {@link Bot} has 50,000 milliseconds of wait time, it will wait 50 seconds
 	 * before performing any of its normal activities. Basically, the
@@ -185,6 +159,26 @@ public class Bot extends Object {
 	 */
 	public void addWaitTime(final double miliseconds) {
 		waitTime += miliseconds;
+	}
+
+	/**
+	 * Decrements the life of this {@link Bot} by the specified amount.
+	 *
+	 * @param life
+	 *            The amount of life to take from this {@link Bot}.
+	 * @return The amount of life that this {@link Bot} has left over.
+	 */
+	public double decrementLife(double life) {
+		return this.life -= life;
+	}
+
+	/**
+	 * A getter for {@link Bot#life}.
+	 *
+	 * @return The life remaining for this {@link Bot}.
+	 */
+	public double getLife() {
+		return life;
 	}
 
 	/**
@@ -214,6 +208,16 @@ public class Bot extends Object {
 		g.setColor(Color.BLACK);
 		g.drawString("" + resources.size(), Evolution.calculateSize(getX() + 7, true),
 				Evolution.calculateSize(getY() + height - 7, false));
+	}
+
+	/**
+	 * Sets the amount of life that this {@link Bot} has left.
+	 *
+	 * @param life
+	 *            The amount of life that will be set to this {@link Bot}.
+	 */
+	public void setLife(double life) {
+		this.life = life;
 	}
 
 	/**

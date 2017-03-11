@@ -44,12 +44,28 @@ public final class Evolution {
 	public final EvolutionPane pane = new EvolutionPane();
 
 	/**
+	 * This List is used to prevent {@link ConcurrentModificationException}s
+	 * from occurring. While iterating over {@link #structures},
+	 * {@link #addStruct(Structure)} adds its objects here to prevent
+	 * {@link ConcurrentModificationException}s caused by {@link #structures}.
+	 */
+	private LinkedList<Structure> modificationStructsList = new LinkedList<>();
+	/**
+	 * This List is used to prevent {@link ConcurrentModificationException}s
+	 * from occurring. While iterating over {@link #bots}, {@link #addBot(Bot)}
+	 * adds its objects here to prevent {@link ConcurrentModificationException}s
+	 * caused by {@link #bots}.
+	 */
+	private LinkedList<Bot> modificationBotsList = new LinkedList<>();
+
+	/**
 	 * <p>
 	 * The current instance of {@link Evolution} that is running in the program.
 	 * This is commonly used to retrieve the current instance statically, as
 	 * that was what it was made for. See {@link #getCurrentInstance()}.
 	 */
 	private static Evolution CURRENT_INSTANCE;
+
 	/**
 	 * A {@link Random} for use around the class, where necessary.
 	 */
@@ -145,22 +161,6 @@ public final class Evolution {
 	public boolean addStruct(final Structure struct) {
 		return modificationStructsList.add(struct);
 	}
-
-	/**
-	 * This List is used to prevent {@link ConcurrentModificationException}s
-	 * from occurring. While iterating over {@link #structures},
-	 * {@link #addStruct(Structure)} adds its objects here to prevent
-	 * {@link ConcurrentModificationException}s caused by {@link #structures}.
-	 */
-	private LinkedList<Structure> modificationStructsList = new LinkedList<>();
-
-	/**
-	 * This List is used to prevent {@link ConcurrentModificationException}s
-	 * from occurring. While iterating over {@link #bots}, {@link #addBot(Bot)}
-	 * adds its objects here to prevent {@link ConcurrentModificationException}s
-	 * caused by {@link #bots}.
-	 */
-	private LinkedList<Bot> modificationBotsList = new LinkedList<>();
 
 	/**
 	 * <p>

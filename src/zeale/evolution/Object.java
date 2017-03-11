@@ -1,8 +1,9 @@
 package zeale.evolution;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 
-public abstract class Object {
+public abstract class Object implements Serializable {
 	/**
 	 * <p>
 	 * Whether or not this {@link Object} is alive. This defines whether or not
@@ -14,6 +15,10 @@ public abstract class Object {
 	 * The position of this {@link Object} in game.
 	 */
 	protected double posx, posy;
+	/**
+	 * Serial Version UID
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * <strong>Constructs an {@link Object}.</strong>
