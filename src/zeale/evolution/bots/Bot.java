@@ -3,6 +3,7 @@ package zeale.evolution.bots;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
+import java.util.Random;
 
 import zeale.evolution.Evolution;
 import zeale.evolution.Object;
@@ -21,6 +22,11 @@ import zeale.evolution.structures.resourcespawners.ResourceSpawner;
  *
  */
 public class Bot extends Object {
+
+	/**
+	 * A private static {@link Random} object, for wherever it's needed in this
+	 * class.
+	 */
 
 	/**
 	 * The life that this {@link Bot} has remaining before it dies (in seconds).
@@ -303,6 +309,44 @@ public class Bot extends Object {
 		else
 			posy -= ry * speed;
 
+	}
+
+	/**
+	 * This method returns a {@code new} {@link LinkedList} which contains all
+	 * the {@link Resource}s in this {@link Bot}.
+	 *
+	 * @return A new {@link LinkedList} with all the {@link Resource}s in this
+	 *         {@link Bot}.
+	 */
+	public LinkedList<Resource> getResources() {
+		return new LinkedList<>(resources);
+	}
+
+	/**
+	 * This method removes and returns {@link Resource}s at random from this
+	 * {@link Bot}.
+	 *
+	 * @param count
+	 *            The amount of {@link Resource}s to remove from this
+	 *            {@link Bot}.
+	 * @return A {@code new} {@link LinkedList} with the {@link Resource}s that
+	 *         were removed from this {@link Bot}.
+	 */
+	public LinkedList<Resource> removeRandomResources(short count) {
+		LinkedList<Resource> list;
+
+		if (count >= resources.size()) {
+			list = new LinkedList<>(resources);
+			resources.clear();
+			return list;
+		}
+
+		list = new LinkedList<>();
+
+		for (short i = 0; i < count; i++)
+			list.add(resources.remove((int) Math.round(random.nextDouble() * resources.size())));
+
+		return list;
 	}
 
 }

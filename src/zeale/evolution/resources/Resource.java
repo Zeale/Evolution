@@ -13,7 +13,7 @@ public class Resource {
 	/**
 	 * A private static {@link Random} for use around the class.
 	 */
-	private static Random rand = new Random();
+	private static final Random rand = new Random();
 
 	/**
 	 * Constructs a new {@link Resource}. (<b>Will be changed by the next

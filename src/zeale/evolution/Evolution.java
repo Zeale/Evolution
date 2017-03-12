@@ -69,7 +69,7 @@ public final class Evolution {
 	/**
 	 * A {@link Random} for use around the class, where necessary.
 	 */
-	private static Random random = new Random();
+	private static final Random random = new Random();
 
 	private Evolution() {
 		GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().setFullScreenWindow(frame);

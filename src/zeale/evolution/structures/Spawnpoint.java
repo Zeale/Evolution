@@ -15,6 +15,13 @@ import zeale.evolution.structures.resourcespawners.ResourceSpawner;
 public final class Spawnpoint extends Structure {
 
 	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private static final Random random = new Random();
+
+	/**
 	 * A {@link LinkedList} of the {@link Resource}s that this
 	 * {@link Spawnpoint} currently holds.
 	 */
@@ -89,6 +96,44 @@ public final class Spawnpoint extends Structure {
 
 			}
 
+	}
+
+	/**
+	 * This method returns a {@code new} {@link LinkedList} which contains all
+	 * the {@link Resource}s in this {@link Spawnpoint}.
+	 *
+	 * @return A new {@link LinkedList} with all the {@link Resource}s in this
+	 *         {@link Spawnpoint}.
+	 */
+	public LinkedList<Resource> getResources() {
+		return new LinkedList<>(resources);
+	}
+
+	/**
+	 * This method removes and returns {@link Resource}s at random from this
+	 * {@link Spawnpoint}.
+	 *
+	 * @param count
+	 *            The amount of {@link Resource}s to remove from this
+	 *            {@link Spawnpoint}.
+	 * @return A {@code new} {@link LinkedList} with the {@link Resource}s that
+	 *         were removed from this {@link Spawnpoint}.
+	 */
+	public LinkedList<Resource> removeRandomResources(short count) {
+		LinkedList<Resource> list;
+
+		if (count >= resources.size()) {
+			list = new LinkedList<>(resources);
+			resources.clear();
+			return list;
+		}
+
+		list = new LinkedList<>();
+
+		for (short i = 0; i < count; i++)
+			list.add(resources.remove((int) Math.round(random.nextDouble() * resources.size())));
+
+		return list;
 	}
 
 }

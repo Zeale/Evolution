@@ -6,6 +6,11 @@ import zeale.evolution.bots.Bot;
 public abstract class Structure extends Object {
 
 	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * Creates a new {@link Structure} given an x and y position.
 	 *
 	 * @param posx

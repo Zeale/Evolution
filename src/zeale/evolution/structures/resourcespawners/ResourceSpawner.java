@@ -2,9 +2,7 @@ package zeale.evolution.structures.resourcespawners;
 
 import java.awt.Graphics;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 import zeale.evolution.Evolution;
@@ -15,6 +13,11 @@ import zeale.evolution.structures.Structure;
 
 public class ResourceSpawner extends Structure {
 	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * The {@link LinkedList} that holds this {@link ResourceSpawner}'s
 	 * resources.
 	 */
@@ -23,7 +26,7 @@ public class ResourceSpawner extends Structure {
 	/**
 	 * A private {@link Random} for use around the class.
 	 */
-	private static Random rand = new Random();
+	private static final Random rand = new Random();
 
 	/**
 	 * Constructs a {@link ResourceSpawner} using an x and y position and a
@@ -92,16 +95,6 @@ public class ResourceSpawner extends Structure {
 		return resources.get(ResourceSpawner.rand.nextInt(resources.size()));
 	}
 
-	/**
-	 * A getter for this {@link ResourceSpawner}'s {@link Resource}s.
-	 *
-	 * @return An unmodifiable list of the {@link Resource}s in this
-	 *         {@link ResourceSpawner}.
-	 */
-	public List<Resource> getResources() {
-		return Collections.unmodifiableList(resources);
-	}
-
 	@Override
 	public void render(final Graphics g) {
 		g.fillRect(getX() - Evolution.getCurrentInstance().getCx(), getY() - Evolution.getCurrentInstance().getCy(),
@@ -127,5 +120,43 @@ public class ResourceSpawner extends Structure {
 	@Override
 	public void work(final long delta) {
 
+	}
+
+	/**
+	 * This method returns a {@code new} {@link LinkedList} which contains all
+	 * the {@link Resource}s in this {@link ResourceSpawner}.
+	 *
+	 * @return A new {@link LinkedList} with all the {@link Resource}s in this
+	 *         {@link ResourceSpawner}.
+	 */
+	public LinkedList<Resource> getResources() {
+		return new LinkedList<>(resources);
+	}
+
+	/**
+	 * This method removes and returns {@link Resource}s at random from this
+	 * {@link ResourceSpawner}.
+	 *
+	 * @param count
+	 *            The amount of {@link Resource}s to remove from this
+	 *            {@link ResourceSpawner}.
+	 * @return A {@code new} {@link LinkedList} with the {@link Resource}s that
+	 *         were removed from this {@link ResourceSpawner}.
+	 */
+	public LinkedList<Resource> removeRandomResources(short count) {
+		LinkedList<Resource> list;
+
+		if (count >= resources.size()) {
+			list = new LinkedList<>(resources);
+			resources.clear();
+			return list;
+		}
+
+		list = new LinkedList<>();
+
+		for (short i = 0; i < count; i++)
+			list.add(resources.remove((int) Math.round(rand.nextDouble() * resources.size())));
+
+		return list;
 	}
 }
