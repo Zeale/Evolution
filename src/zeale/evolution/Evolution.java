@@ -2,7 +2,6 @@ package zeale.evolution;
 
 import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
-import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.LinkedList;
 import java.util.List;
@@ -79,7 +78,7 @@ public final class Evolution {
 				(short) 25));
 		bots.add(new Bot(Evolution.random.nextInt(getWidth()), Evolution.random.nextInt(getHeight())));
 		bots.add(new Bot(Evolution.random.nextInt(getWidth()), Evolution.random.nextInt(getHeight())));
-		structures.add(new Spawnpoint(getWidth() / 2, getHeight() / 2));
+		structures.add(new Spawnpoint(960, 540));
 	}
 
 	/**
@@ -164,15 +163,13 @@ public final class Evolution {
 
 	/**
 	 * <p>
-	 * <strong>A getter for the {@link Bot}s in game.</strong>
-	 * <p>
-	 * This method returns an unmodifiable list containing all the {@link Bot}s
-	 * in game. Dead or alive. See {@link Bot#isAlive()} for more information.
+	 * <strong>A getter for the {@link Bot}s List in game.</strong>
 	 *
-	 * @return A full, unmodifiable list of all the {@link Bot}s in game.
+	 * @return The {@link #bots} {@link List} that's used by this
+	 *         {@link Evolution} object.
 	 */
-	public List<Bot> getBots() {
-		return Collections.unmodifiableList(bots);
+	public LinkedList<Bot> getBots() {
+		return bots;
 	}
 
 	/**
@@ -261,16 +258,13 @@ public final class Evolution {
 
 	/**
 	 * <p>
-	 * <strong>A getter for the {@link Structure}s in game.</strong>
-	 * <p>
-	 * This method returns an unmodifiable list containing all the
-	 * {@link Structure}s in game. Dead or alive. See
-	 * {@link Structure#isAlive()} for more information.
+	 * <strong>A getter for the {@link Structure}s List in game.</strong>
 	 *
-	 * @return A full, unmodifiable list of all the {@link Structure}s in game.
+	 * @return The {@link #structures} list used by this {@link Evolution}
+	 *         object.
 	 */
-	public List<Structure> getStructures() {
-		return Collections.unmodifiableList(structures);
+	public LinkedList<Structure> getStructures() {
+		return structures;
 	}
 
 	/**
@@ -333,10 +327,33 @@ public final class Evolution {
 	 *            <code>true</code> if the input is on the <code>x</code> axis,
 	 *            <code>false</code> if the input is on the y axis.
 	 * @return The specified position (<code>input</code>) as it appears on
-	 *         screen.
+	 *         screen as an int.
 	 */
 	public static int calculatePosition(final int input, final boolean x) {
-		return x ? input - Evolution.getCurrentInstance().getCx() : input - Evolution.getCurrentInstance().getCy();
+		return x ? Evolution.calculateSize(input - Evolution.getCurrentInstance().getCx(), true)
+				: Evolution.calculateSize(input - Evolution.getCurrentInstance().getCy(), false);
+	}
+
+	/**
+	 * <p>
+	 * A useful method for calculating and return the position of something as
+	 * it appears on screen (if it does). This will factor in the camera's
+	 * position to return where something should be drawn to the screen.
+	 * <p>
+	 * This method is more precise than {@link #calculatePosition(int, boolean)}
+	 * because it undergoes double calculations.
+	 *
+	 * @param input
+	 *            The x or y input.
+	 * @param x
+	 *            <code>true</code> if the input is on the <code>x</code> axis,
+	 *            <code>false</code> if the input is on the y axis.
+	 * @return The specified position (<code>input</code>) as it appears on
+	 *         screen.
+	 */
+	public static double calculatePosition(double input, boolean x) {
+		return x ? Evolution.calculateSize(input - Evolution.getCurrentInstance().getCx(), true)
+				: Evolution.calculateSize(input - Evolution.getCurrentInstance().getCy(), false);
 	}
 
 	/**
@@ -351,11 +368,34 @@ public final class Evolution {
 	 * @param width
 	 *            <code>true</code> if <code>input</code> is a width value,
 	 *            <code>false</code> if <code>input</code> is a height value.
-	 * @return The multiplied width/height value.
+	 * @return The multiplied width/height value as an int.
 	 */
 	public static int calculateSize(final int input, final boolean width) {
 		return width ? (int) (input * Evolution.getCurrentInstance().getWidthRatio())
 				: (int) (input * Evolution.getCurrentInstance().getHeightRatio());
+	}
+
+	/**
+	 * <p>
+	 * A useful method used for calculating the width or height, as it should
+	 * be, scaled to the screen size. This gets the size given and multiplies it
+	 * by the correct ratios as needed. (See {@link #getHeightRatio()} and
+	 * {@link #getWidthRatio()} for more details.)
+	 * <p>
+	 * This method will be more precise than
+	 * {@link #calculateSize(int, boolean)}, as it uses decimal calculations and
+	 * doesn't undergo {@code double} to {@code int} casting.
+	 *
+	 * @param input
+	 *            the width/height that will be scaled then returned.
+	 * @param width
+	 *            <code>true</code> if <code>input</code> is a width value,
+	 *            <code>false</code> if <code>input</code> is a height value.
+	 * @return The multiplied width/height value as a double.
+	 */
+	public static double calculateSize(double input, boolean width) {
+		return width ? input * Evolution.getCurrentInstance().getWidthRatio()
+				: input * Evolution.getCurrentInstance().getHeightRatio();
 	}
 
 	/**

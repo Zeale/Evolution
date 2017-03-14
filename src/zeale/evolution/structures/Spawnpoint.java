@@ -75,9 +75,12 @@ public final class Spawnpoint extends Structure {
 	@Override
 	public void render(final Graphics g) {
 		g.setColor(Color.BLUE);
-		g.fillRect(getX() - width / 2, getY() - height / 2, width, height);
+		g.fillRect(Evolution.calculatePosition(getX() - width / 2, true),
+				Evolution.calculatePosition(getY() - height / 2, false), Evolution.calculateSize(width, true),
+				Evolution.calculateSize(height, false));
 		g.setColor(Color.YELLOW);
-		g.drawString("" + resources.size(), getX() - 4, getY() + 5);
+		g.drawString("" + resources.size(), Evolution.calculatePosition(getX() - 4, true),
+				Evolution.calculatePosition(getY() + 5, false));
 	}
 
 	@Override

@@ -97,7 +97,7 @@ public class ResourceSpawner extends Structure {
 
 	@Override
 	public void render(final Graphics g) {
-		g.fillRect(getX() - Evolution.getCurrentInstance().getCx(), getY() - Evolution.getCurrentInstance().getCy(),
+		g.fillRect(Evolution.calculatePosition(getX(), true), Evolution.calculatePosition(getY(), false),
 				Evolution.calculateSize(20, true), Evolution.calculateSize(20, false));
 	}
 

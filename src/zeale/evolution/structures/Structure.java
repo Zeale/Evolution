@@ -1,9 +1,16 @@
 package zeale.evolution.structures;
 
+import zeale.evolution.Evolution;
 import zeale.evolution.Object;
 import zeale.evolution.bots.Bot;
 
 public abstract class Structure extends Object {
+
+	@Override
+	public boolean kill() {
+		Evolution.getCurrentInstance().getStructures().remove(this);
+		return super.kill();
+	}
 
 	/**
 	 *

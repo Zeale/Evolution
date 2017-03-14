@@ -23,6 +23,12 @@ import zeale.evolution.structures.resourcespawners.ResourceSpawner;
  */
 public class Bot extends Object {
 
+	@Override
+	public boolean kill() {
+		Evolution.getCurrentInstance().getBots().remove(this);
+		return super.kill();
+	}
+
 	/**
 	 * A private static {@link Random} object, for wherever it's needed in this
 	 * class.
@@ -210,7 +216,7 @@ public class Bot extends Object {
 	@Override
 	public void render(final Graphics g) {
 		g.setColor(botColor);
-		g.fillRect(getX() - Evolution.getCurrentInstance().getCx(), getY() - Evolution.getCurrentInstance().getCy(),
+		g.fillRect(Evolution.calculatePosition(getX(), true), Evolution.calculatePosition(getY(), false),
 				Evolution.calculateSize(width, true), Evolution.calculateSize(height, false));
 		g.setColor(Color.BLACK);
 		g.drawString("" + resources.size(), Evolution.calculateSize(getX() + 7, true),
