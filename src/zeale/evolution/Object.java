@@ -3,6 +3,8 @@ package zeale.evolution;
 import java.awt.Graphics;
 import java.io.Serializable;
 
+import zeale.evolution.bots.Bot;
+
 public abstract class Object implements Serializable {
 	/**
 	 * <p>
@@ -31,6 +33,128 @@ public abstract class Object implements Serializable {
 	public Object(final double posx, final double posy) {
 		this.posx = posx;
 		this.posy = posy;
+	}
+
+	/**
+	 * <p>
+	 * <b>Setter for this {@link Object}'s {@link #posx}.</b>
+	 * <p>
+	 * This method sets the x position of this {@link Bot}.
+	 *
+	 * @param posx
+	 *            The new x position for this {@link Object}.
+	 */
+	public void setX(double posx) {
+		this.posx = posx;
+	}
+
+	/**
+	 * <p>
+	 * <b>Setter for this {@link Object}'s {@link #posy}.</b>
+	 * <p>
+	 * This method sets the y position of this {@link Object}.
+	 *
+	 * @param posy
+	 *            The new y position of this {@link Object}.
+	 */
+	public void setY(double posy) {
+		this.posy = posy;
+	}
+
+	/**
+	 * <p>
+	 * This method adds the specified amount to this {@link Object}'s x
+	 * position.
+	 *
+	 * @param amount
+	 *            The amount to incrememnt this {@link Object}'s x position by.
+	 */
+	public void addX(double amount) {
+		posx += amount;
+	}
+
+	/**
+	 * <p>
+	 * This method decrements this {@link Object}'s x position by the specified
+	 * amount.
+	 *
+	 * @param amount
+	 *            The amount to decrement this {@link Object}'s x position by.
+	 */
+	public void decX(double amount) {
+		posx -= amount;
+	}
+
+	/**
+	 * <p>
+	 * This method adds the specified amount to this {@link Object}'s x
+	 * position.
+	 *
+	 * @param amount
+	 *            The amount to increment this {@link Object}'s x position by.
+	 */
+	public void addY(double amount) {
+		posy += amount;
+	}
+
+	/**
+	 * <p>
+	 * This method decrements this {@link Object}'s y position by the specified
+	 * amount.
+	 *
+	 * @param amount
+	 *            The amount to decrement this {@link Object}'s y position by.
+	 */
+	public void decY(double amount) {
+		posy -= amount;
+	}
+
+	/**
+	 * <p>
+	 * This method increments this {@link Object}'s x position by the specified
+	 * amount.
+	 *
+	 * @param amount
+	 *            The distance to increase this {@link Object}'s x position by.
+	 */
+	public void incrementX(double amount) {
+		posx += amount;
+	}
+
+	/**
+	 * <p>
+	 * This method increments this {@link Object}'s y position by the specified
+	 * amount.
+	 *
+	 * @param amount
+	 *            The amount to increase this {@link Object}'s y position by.
+	 */
+	public void incrementY(double amount) {
+		posy += amount;
+	}
+
+	/**
+	 * <p>
+	 * This method decrements this {@link Object}'s x position by the specified
+	 * amount.
+	 *
+	 * @param amount
+	 *            The amount to decrease this {@link Object}'s x position by.
+	 */
+	public void decrementX(double amount) {
+		posx -= amount;
+	}
+
+	/**
+	 * <p>
+	 * This method decrements this {@link Object}'s y position by the specified
+	 * amount.
+	 *
+	 * @param amount
+	 *            The amount to decrease this {@link Object}'s y position by.
+	 */
+	public void decrementY(double amount) {
+		posy -= amount;
 	}
 
 	/**

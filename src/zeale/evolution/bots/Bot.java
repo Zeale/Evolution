@@ -27,6 +27,7 @@ public class Bot extends Object {
 	 * A private static {@link Random} object, for wherever it's needed in this
 	 * class.
 	 */
+	private static final Random random = new Random();
 
 	/**
 	 * The life that this {@link Bot} has remaining before it dies (in seconds).
